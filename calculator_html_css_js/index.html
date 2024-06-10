@@ -60,46 +60,99 @@
         form input.operator {
             background-color: orange;
         }
-    </style>    
+    </style>
+        
 </head>
 
 <body>
+
     <div class="container">
         <div class="calculator">
             <form>
                 <div class="display">
-                    <input type="text" name="display" readonly>
+                    <input type="text" id="display" readonly />
                 </div>
                 <div>
-                    <input type="button" value="AC" onClick="display.value = ''" class="operator">
-                    <input type="button" value="DE" onClick="display.value = display.value.toString().slice(0, -1)" class="operator">
-                    <input type="button" value="." onClick="display.value += '.'" class="operator">
-                    <input type="button" value="/" onClick="display.value += '/'" class="operator">
+                    <input type="button" value="AC" onClick="clearDisplay()" class="operator">
+                    <input type="button" value="DE" onClick="deleteLastEntry()" class="operator">
+                    <input type="button" value="." onClick="getButton('.')" class="operator">
+                    <input type="button" value="/" onClick="getButton('/')" class="operator">
                 </div>
                 <div>
-                    <input type="button" value="7" onClick="display.value += '7'">
-                    <input type="button" value="8" onClick="display.value += '8'">
-                    <input type="button" value="9" onClick="display.value += '9'">
-                    <input type="button" value="*" onClick="display.value += '*'" class="operator">
+                    <input type="button" value="7" onClick="getButton('7')">
+                    <input type="button" value="8" onClick="getButton('8')">
+                    <input type="button" value="9" onClick="getButton('9')">
+                    <input type="button" value="*" onClick="getButton('*')" class="operator">
                 </div>
                 <div>
-                    <input type="button" value="4" onClick="display.value += '4'">
-                    <input type="button" value="5" onClick="display.value += '5'">
-                    <input type="button" value="6" onClick="display.value += '6'">
-                    <input type="button" value="-" onClick="display.value += '-'" class="operator">
+                    <input type="button" value="4" onClick="getButton('4')">
+                    <input type="button" value="5" onClick="getButton('5')">
+                    <input type="button" value="6" onClick="getButton('6')">
+                    <input type="button" value="-" onClick="getButton('-')" class="operator">
                 </div>
                 <div>
-                    <input type="button" value="1" onClick="display.value += '1'">
-                    <input type="button" value="2" onClick="display.value += '2'">
-                    <input type="button" value="3" onClick="display.value += '3'">
-                    <input type="button" value="+" onClick="display.value += '+'" class="operator">
+                    <input type="button" value="1" onClick="getButton('1')">
+                    <input type="button" value="2" onClick="getButton('2')">
+                    <input type="button" value="3" onClick="getButton('3')">
+                    <input type="button" value="+" onClick="getButton('+')" class="operator">
                 </div>
                 <div>
-                    <input type="button" value="00" onClick="display.value += '00'">
-                    <input type="button" value="0" onClick="display.value += '0'">
-                    <input type="button" value="=" class="equal operator" onClick="display.value = eval(display.value)">
+                    <input type="button" value="00" onClick="getButton('00')">
+                    <input type="button" value="0" onClick="getButton('0')">
+                    <input type="button" value="=" class="equal operator" onClick="calculateEqual()">
                 </div>
             </form>
         </div>
+
+        <script>
+            
+            let display = document.getElementById('display')
+            
+            function getButton(key) {
+                if ((key === '*' || key === '+' || key === '-' || key === '/') && 
+                (display.value.includes('*') || display.value.includes('+') || display.value.includes('-') || display.value.includes('/'))) {
+                }
+                else {
+                    display.value+=key;
+                } 
+            }    
+            
+            function calculateEqual() {
+                var res = [];
+                var answer;
+                
+                if(display.value.includes("+")){
+                res = display.value.split('+');
+                answer =  parseFloat(res[0]) + parseFloat(res[1]);
+                }
+                
+                else if(display.value.includes("-")){
+                res = display.value.split('-');
+                answer =  parseFloat(res[0]) - parseFloat(res[1]);
+                }
+                
+                else if(display.value.includes("/")){
+                res = display.value.split('/');
+                answer =  parseFloat(res[0]) / parseFloat(res[1]);
+                }
+                
+                else{
+                res = display.value.split('*');
+                answer = parseFloat(res[0]) * parseFloat(res[1]);
+                }
+
+                display.value = answer;
+
+            }
+            
+            function clearDisplay() {
+                display.value = ' '
+            }
+
+            function deleteLastEntry(){
+                display.value = display.value.toString().slice(0, -1)
+            }
+    
+        </script>
     </div>
 </html>
